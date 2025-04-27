@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Results - {{ tool_name }} | Multi-Tool{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">{{ tool_name }}</li>
+            </ol>
+        </nav>
+        
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="card-title">{{ tool_name }} Results</h5>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="outputFormatDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Output Format
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="outputFormatDropdown">
+                        <li><a class="dropdown-item format-option" href="#" data-format="web">Web View</a></li>
+                        <li><a class="dropdown-item format-option" href="#" data-format="json">JSON</a></li>
+                        <li><a class="dropdown-item format-option" href="#" data-format="table">Table</a></li>
+                        <li><a class="dropdown-item format-option" href="#" data-format="text">Plain Text</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="downloadResults">Download Results</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6>Target: <span class="text-info">{{ target }}</span></h6>
+                    <h6>Tool: <span class="text-info">{{ tool_name }}</span></h6>
+                    <h6>Time: <span class="text-info">{{ timestamp }}</span></h6>
+                </div>
+                
+                <div id="results-web" class="results-view">
+                    {{ web_results|safe }}
+                </div>
+                
+                <div id="results-json" class="results-view d-none">
+                    <pre class="bg-dark p-3 rounded"><code>{{ json_results }}</code></pre>
+                </div>
+                
+                <div id="results-table" class="results-view d-none">
+                    {{ table_results|safe }}
+                </div>
+                
+                <div id="results-text" class="results-view d-none">
+                    <pre class="bg-dark p-3 rounded"><code>{{ text_results }}</code></pre>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="/analyze" method="post" class="mb-0">
+                            <div class="input-group">
+                                <input type="hidden" name="tool" value="{{ tool_id }}">
+                                <input type="text" class="form-control" name="target" placeholder="Try another domain/URL..." aria-label="Try another domain">
+                                <button class="btn btn-outline-primary" type="submit">Analyze</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <a href="/" class="btn btn-outline-secondary">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Format switching
+        const formatOptions = document.querySelectorAll('.format-option');
+        const resultsViews = document.querySelectorAll('.results-view');
+        
+        formatOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const format = this.getAttribute('data-format');
+                
+                // Hide all views
+                resultsViews.forEach(view => {
+                    view.classList.add('d-none');
+                });
+                
+                // Show selected view
+                document.getElementById(`results-${format}`).classList.remove('d-none');
+            });
+        });
+        
+        // Download results functionality
+        document.getElementById('downloadResults').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Determine which format is currently visible
+            let format = 'json';
+            let content = '';
+            
+            resultsViews.forEach(view => {
+                if (!view.classList.contains('d-none')) {
+                    const id = view.getAttribute('id');
+                    format = id.replace('results-', '');
+                    
+                    if (format === 'web') {
+                        format = 'html';
+                        content = view.innerHTML;
+                    } else if (format === 'json') {
+                        content = document.querySelector('#results-json code').textContent;
+                    } else if (format === 'table') {
+                        content = view.innerHTML;
+                        format = 'html';
+                    } else if (format === 'text') {
+                        content = document.querySelector('#results-text code').textContent;
+                        format = 'txt';
+                    }
+                }
+            });
+            
+            // Create a blob and download it
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `multitool-results-${new Date().getTime()}.${format}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    });
+</script>
+{% endblock %}

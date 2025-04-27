@@ -1,0 +1,87 @@
+/* Custom styles for Multi-Tool */
+
+/* General styling */
+body {
+    padding-bottom: 20px;
+}
+
+/* Logo styling */
+.navbar-brand img {
+    margin-right: 8px;
+    height: 30px;
+    width: auto;
+}
+
+
+/* Header styling */
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* Card styling */
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-weight: 500;
+}
+
+/* Tool list styling */
+.collapse .card-body {
+    padding: 0.5rem;
+}
+
+.collapse .card-body ul li {
+    margin-bottom: 0.25rem;
+}
+
+.collapse .card-body ul li a {
+    color: var(--bs-light);
+    text-decoration: none;
+}
+
+.collapse .card-body ul li a:hover {
+    color: var(--bs-primary);
+    text-decoration: underline;
+}
+
+/* Results styling */
+pre {
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+    border-radius: 4px;
+    padding: 15px;
+    overflow: auto;
+    max-height: 600px;
+}
+
+.results-view {
+    margin-top: 20px;
+}
+
+/* Table styling for results */
+.table-results {
+    overflow-x: auto;
+}
+
+.table-results table {
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    margin-top: 30px;
+    padding: 20px 0;
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-footer .row .col-md-6:last-child {
+        margin-top: 10px;
+        text-align: left !important;
+    }
+}

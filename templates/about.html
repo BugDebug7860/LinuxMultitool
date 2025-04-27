@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}About Multi-Tool{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">About</li>
+            </ol>
+        </nav>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title">About Multi-Tool</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>Multi-Tool: Network Reconnaissance & Website Analysis</h2>
+                        <p class="lead">A comprehensive CLI-based network reconnaissance and website analysis tool designed for security professionals and developers.</p>
+                        
+                        <h4 class="mt-4">Overview</h4>
+                        <p>Multi-Tool is an all-in-one network analysis toolkit that provides a unified interface for various reconnaissance and website analysis tasks. 
+                        The tool combines 38 different utilities in a single package, offering capabilities ranging from basic DNS lookups to in-depth security 
+                        analysis and technology stack detection.</p>
+                        
+                        <h4 class="mt-4">Key Features</h4>
+                        <ul>
+                            <li><strong>Comprehensive Analysis:</strong> 38 different tools covering multiple aspects of network and web analysis</li>
+                            <li><strong>Multiple Interfaces:</strong> Command-line, interactive menu, and web interfaces</li>
+                            <li><strong>Flexible Output:</strong> Results available in multiple formats (JSON, table, text, web)</li>
+                            <li><strong>Modular Design:</strong> Easily extensible with new tools and capabilities</li>
+                            <li><strong>Security Focus:</strong> Designed with security analysis and reconnaissance in mind</li>
+                        </ul>
+                        
+                        <h4 class="mt-4">Use Cases</h4>
+                        <ul>
+                            <li>Security reconnaissance and vulnerability assessment</li>
+                            <li>Website performance analysis and optimization</li>
+                            <li>Domain and server infrastructure investigation</li>
+                            <li>Technology stack identification</li>
+                            <li>Security configuration analysis (DNS, HTTP, Email)</li>
+                            <li>Environmental impact assessment</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Tool Categories</h5>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Domain Tools
+                                    <span class="badge bg-primary rounded-pill">7</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Web Tools
+                                    <span class="badge bg-primary rounded-pill">8</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Server Tools
+                                    <span class="badge bg-primary rounded-pill">6</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Site Analysis
+                                    <span class="badge bg-primary rounded-pill">6</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Security Analysis
+                                    <span class="badge bg-primary rounded-pill">11</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h5 class="card-title">Interfaces</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Command Line:</strong> Run specific tools directly with arguments</p>
+                                <div class="bg-dark p-2 rounded">
+                                    <code>python -m multi_tool.main dnsrecords example.com</code>
+                                </div>
+                                
+                                <p class="mt-3"><strong>Interactive Menu:</strong> Terminal-based menu interface</p>
+                                <div class="bg-dark p-2 rounded">
+                                    <code>python interactive.py</code>
+                                </div>
+                                
+                                <p class="mt-3"><strong>Web Interface:</strong> Browser-based GUI</p>
+                                <div class="bg-dark p-2 rounded">
+                                    <code>gunicorn main:app</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

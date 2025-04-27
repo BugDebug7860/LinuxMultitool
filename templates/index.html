@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}Multi-Tool: Network Analysis{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1 class="display-4">Multi-Tool</h1>
+        <p class="lead">Comprehensive Network Reconnaissance & Website Analysis Tool</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title">Quick Tools</h5>
+            </div>
+            <div class="card-body">
+                <form action="/analyze" method="post" id="quickAnalyzeForm">
+                    <div class="mb-3">
+                        <label for="target" class="form-label">Domain or URL</label>
+                        <input type="text" class="form-control" id="target" name="target" 
+                               placeholder="example.com or https://example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tool" class="form-label">Select Tool</label>
+                        <select class="form-select" id="tool" name="tool" required>
+                            <option value="" selected disabled>Choose a tool...</option>
+                            <optgroup label="Domain Tools">
+                                <option value="dnsrecords">DNS Records</option>
+                                <option value="whois">WHOIS Lookup</option>
+                                <option value="sslchain">SSL Chain</option>
+                                <option value="dnssecurity">DNS Security</option>
+                                <option value="txtrecords">TXT Records</option>
+                            </optgroup>
+                            <optgroup label="Web Tools">
+                                <option value="headers">HTTP Headers</option>
+                                <option value="cookies">Cookies</option>
+                                <option value="techstack">Tech Stack</option>
+                                <option value="redirectchain">Redirect Chain</option>
+                                <option value="httpsecurity">HTTP Security</option>
+                            </optgroup>
+                            <optgroup label="Server Tools">
+                                <option value="ipinfo">IP Info</option>
+                                <option value="serverlocation">Server Location</option>
+                                <option value="serverstatus">Server Status</option>
+                                <option value="openports">Open Ports</option>
+                            </optgroup>
+                            <optgroup label="Site Analysis">
+                                <option value="sitefeatures">Site Features</option>
+                                <option value="qualitymetrics">Quality Metrics</option>
+                                <option value="carbonfootprint">Carbon Footprint</option>
+                                <option value="socialtags">Social Tags</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Analyze</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title">Tool Categories</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-grid">
+                            <a href="#domain-tools" class="btn btn-outline-primary" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                Domain Tools
+                            </a>
+                        </div>
+                        <div class="collapse mt-2" id="domain-tools">
+                            <div class="card card-body bg-dark">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="/domain/dns">DNS Records</a></li>
+                                    <li><a href="/domain/whois">WHOIS Lookup</a></li>
+                                    <li><a href="/domain/ssl">SSL Chain</a></li>
+                                    <li><a href="/domain/dnssec">DNS Security</a></li>
+                                    <li><a href="/domain/dnsserver">DNS Server</a></li>
+                                    <li><a href="/domain/txtrecords">TXT Records</a></li>
+                                    <li><a href="/domain/info">Domain Info</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-grid">
+                            <a href="#web-tools" class="btn btn-outline-primary" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                Web Tools
+                            </a>
+                        </div>
+                        <div class="collapse mt-2" id="web-tools">
+                            <div class="card card-body bg-dark">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="/web/headers">HTTP Headers</a></li>
+                                    <li><a href="/web/cookies">Cookies</a></li>
+                                    <li><a href="/web/crawlrules">Crawl Rules</a></li>
+                                    <li><a href="/web/techstack">Tech Stack</a></li>
+                                    <li><a href="/web/redirectchain">Redirect Chain</a></li>
+                                    <li><a href="/web/httpsecurity">HTTP Security</a></li>
+                                    <li><a href="/web/securitytxt">Security.txt</a></li>
+                                    <li><a href="/web/firewall">Firewall Detection</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-grid">
+                            <a href="#server-tools" class="btn btn-outline-primary" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                Server Tools
+                            </a>
+                        </div>
+                        <div class="collapse mt-2" id="server-tools">
+                            <div class="card card-body bg-dark">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="/server/ip">IP Info</a></li>
+                                    <li><a href="/server/location">Server Location</a></li>
+                                    <li><a href="/server/status">Server Status</a></li>
+                                    <li><a href="/server/info">Server Info</a></li>
+                                    <li><a href="/server/openports">Open Ports</a></li>
+                                    <li><a href="/server/traceroute">Traceroute</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-grid">
+                            <a href="#site-tools" class="btn btn-outline-primary" data-bs-toggle="collapse" role="button" aria-expanded="false">
+                                Site Analysis
+                            </a>
+                        </div>
+                        <div class="collapse mt-2" id="site-tools">
+                            <div class="card card-body bg-dark">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="/site/features">Site Features</a></li>
+                                    <li><a href="/site/qualitymetrics">Quality Metrics</a></li>
+                                    <li><a href="/site/carbonfootprint">Carbon Footprint</a></li>
+                                    <li><a href="/site/socialtags">Social Tags</a></li>
+                                    <li><a href="/site/listedpages">Listed Pages</a></li>
+                                    <li><a href="/site/linkedpages">Linked Pages</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">About Multi-Tool</h5>
+            </div>
+            <div class="card-body">
+                <p>Multi-Tool is a comprehensive network reconnaissance and website analysis tool designed for security professionals, 
+                web developers, and system administrators. The tool provides a unified interface for various network analysis 
+                tasks, including DNS lookups, SSL certificate analysis, HTTP header inspection, server information gathering, 
+                and much more.</p>
+                
+                <h6>Key Features:</h6>
+                <ul>
+                    <li>38 different network and web analysis tools</li>
+                    <li>Domain and DNS analysis tools</li>
+                    <li>Web security and site analysis</li>
+                    <li>Server information and performance metrics</li>
+                    <li>Multiple output formats (web, JSON, table, text)</li>
+                    <li>Command-line and web interfaces</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any JavaScript for the homepage here
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tool_name }} | Multi-Tool{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">{{ tool_name }}</li>
+            </ol>
+        </nav>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title">{{ tool_name }}</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('analyze') }}" method="post">
+                    <input type="hidden" name="tool" value="{{ tool_id }}">
+                    
+                    <div class="mb-3">
+                        <label for="target" class="form-label">Enter {{ target_type|capitalize }}</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="target" name="target" 
+                                   placeholder="{{ example }}" required>
+                            <button class="btn btn-primary" type="submit">Analyze</button>
+                        </div>
+                        <div class="form-text">
+                            {% if target_type == 'domain' %}
+                            Enter a domain name (e.g., example.com)
+                            {% elif target_type == 'url' %}
+                            Enter a URL (e.g., https://example.com)
+                            {% elif target_type == 'ip' %}
+                            Enter an IP address (e.g., 8.8.8.8)
+                            {% else %}
+                            Enter a hostname (e.g., example.com)
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if tool_id == 'dnsrecords' %}
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Record Type</label>
+                        <select class="form-select" id="type" name="type">
+                            <option value="ALL" selected>All Records</option>
+                            <option value="A">A Records</option>
+                            <option value="AAAA">AAAA Records</option>
+                            <option value="MX">MX Records</option>
+                            <option value="NS">NS Records</option>
+                            <option value="TXT">TXT Records</option>
+                            <option value="CNAME">CNAME Records</option>
+                            <option value="SOA">SOA Record</option>
+                            <option value="CAA">CAA Records</option>
+                        </select>
+                    </div>
+                    {% endif %}
+                    
+                    {% if tool_id == 'openports' %}
+                    <div class="mb-3">
+                        <label for="ports" class="form-label">Port Range</label>
+                        <input type="text" class="form-control" id="ports" name="ports" 
+                               value="1-1000" placeholder="1-1000 or 22,80,443">
+                        <div class="form-text">Specify a range (e.g., 1-1000) or comma-separated list (e.g., 22,80,443)</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if tool_id == 'qualitymetrics' %}
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="detailed" name="detailed" value="true">
+                        <label class="form-check-label" for="detailed">Perform detailed analysis (slower)</label>
+                    </div>
+                    {% endif %}
+                    
+                    {% if tool_id == 'serverstatus' %}
+                    <div class="mb-3">
+                        <label for="requests" class="form-label">Number of Requests</label>
+                        <input type="number" class="form-control" id="requests" name="requests" 
+                               value="3" min="1" max="10">
+                        <div class="form-text">Number of requests to make for performance measurement</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if tool_id == 'listedpages' %}
+                    <div class="mb-3">
+                        <label for="max" class="form-label">Maximum Pages</label>
+                        <input type="number" class="form-control" id="max" name="max" 
+                               value="100" min="1" max="500">
+                        <div class="form-text">Maximum number of pages to extract</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if tool_id == 'linkedpages' %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="max" class="form-label">Maximum Pages</label>
+                            <input type="number" class="form-control" id="max" name="max" 
+                                   value="5" min="1" max="20">
+                            <div class="form-text">Maximum number of pages to crawl</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="depth" class="form-label">Crawl Depth</label>
+                            <input type="number" class="form-control" id="depth" name="depth" 
+                                   value="1" min="1" max="3">
+                            <div class="form-text">How many link levels to follow</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">About {{ tool_name }}</h5>
+            </div>
+            <div class="card-body">
+                {% if tool_id == 'ipinfo' %}
+                <p>The IP Information tool provides comprehensive data about the specified IP address, including geolocation, network ownership, and routing information.</p>
+                <p>This tool can help you:</p>
+                <ul>
+                    <li>Identify the location of servers</li>
+                    <li>Determine IP address ownership</li>
+                    <li>View network information</li>
+                </ul>
+                
+                {% elif tool_id == 'dnsrecords' %}
+                <p>The DNS Records tool retrieves various DNS record types for a domain, providing insights into its configuration and infrastructure.</p>
+                <p>This tool can help you:</p>
+                <ul>
+                    <li>Verify DNS configuration</li>
+                    <li>Troubleshoot DNS issues</li>
+                    <li>Discover mail servers, name servers, and more</li>
+                </ul>
+                
+                {% elif tool_id == 'sslchain' %}
+                <p>The SSL Chain Analysis tool examines the SSL/TLS certificate chain for a domain, providing details about certificate validity, expiration, and trust.</p>
+                <p>This tool can help you:</p>
+                <ul>
+                    <li>Verify certificate validity</li>
+                    <li>Check certificate expiration dates</li>
+                    <li>Examine the certificate authority chain</li>
+                </ul>
+                
+                {% elif tool_id == 'headers' %}
+                <p>The HTTP Headers Analysis tool examines HTTP response headers from a website, providing insights into security configurations, caching policies, and server information.</p>
+                <p>This tool can help you:</p>
+                <ul>
+                    <li>Identify security headers</li>
+                    <li>Check caching configurations</li>
+                    <li>Discover server technologies</li>
+                </ul>
+                
+                {% else %}
+                <p>This tool provides detailed analysis and information related to {{ tool_name|lower }}.</p>
+                <p>Use it to gather insights, troubleshoot issues, and enhance your understanding of the target.</p>
+                {% endif %}
+                
+                <p class="mt-3"><strong>API Access:</strong> This tool is also available via API at <code>/api/{{ tool_id }}?target=example.com</code></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form validation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            const targetInput = document.getElementById('target');
+            if (!targetInput.value.trim()) {
+                e.preventDefault();
+                alert('Please enter a target to analyze.');
+                return false;
+            }
+            return true;
+        });
+    });
+</script>
+{% endblock %}
